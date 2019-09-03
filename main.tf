@@ -109,12 +109,15 @@ resource "aws_instance" "this" {
   }
 
   lifecycle {
-    # Due to several known issues in Terraform AWS provider related to arguments of aws_instance:
-    # (eg, https://github.com/terraform-providers/terraform-provider-aws/issues/2036)
-    # we have to ignore changes in the following arguments
+    # Due to issue [#3116 Cannot use interpolations in lifecycle attributes](https://github.com/hashicorp/terraform/issues/3116)
+    # a variable cannot be used to configure `ignore_changes`
+    # for the `lifecycle`attribute.
+    # A `for` statement produces the following error message:
+    # `A static list expression is required.`
+    # => only a hard coded list of attributes is possible
     ignore_changes = [
-      root_block_device,
-      ebs_block_device,
+      ami,
+      user_data,
     ]
   }
 }
