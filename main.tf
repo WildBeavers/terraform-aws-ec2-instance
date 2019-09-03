@@ -1,5 +1,7 @@
 locals {
-  is_t_instance_type          = replace(var.instance_type, "/^t[23]{1}\\..*$/", "1") == "1" ? true : false
+  hostname_formatstring = "%s-%d"
+  hostnames             = formatlist(local.hostname_formatstring, var.name, range(1, var.instance_count + 1))
+  is_t_instance_type    = replace(var.instance_type, "/^t[23]{1}\\..*$/", "1") == "1" ? true : false
   attached_block_device_count = length(var.attached_block_device)
   attached_block_device_total = var.instance_count * local.attached_block_device_count
   subnet_ids                  = distinct(compact(concat([var.subnet_id], var.subnet_ids)))
@@ -17,6 +19,16 @@ data "aws_subnet" "this" {
   id = local.subnet_ids[count.index]
 }
 
+data "template_file" "user_data" {
+  count = var.instance_count
+
+  template = var.user_data
+
+  vars = {
+    hostname = local.hostnames[count.index]
+  }
+}
+
 ######
 # Note: network_interface can't be specified together with associate_public_ip_address
 ######
@@ -25,7 +37,7 @@ resource "aws_instance" "this" {
 
   ami                    = var.ami
   instance_type          = var.instance_type
-  user_data              = var.user_data
+  user_data              = data.template_file.user_data[count.index].rendered
   subnet_id              = local.subnet_ids[count.index % length(local.subnet_ids)]
   key_name               = var.key_name
   monitoring             = var.monitoring
@@ -80,14 +92,14 @@ resource "aws_instance" "this" {
 
   tags = merge(
     {
-      Name = var.instance_count > 1 || var.use_num_suffix ? format("%s-%d", var.name, count.index + 1) : var.name
+      Name = var.instance_count > 1 || var.use_num_suffix ? local.hostnames[count.index] : var.name
     },
     var.tags,
   )
 
   volume_tags = merge(
     {
-      Name = var.instance_count > 1 || var.use_num_suffix ? format("%s-%d", var.name, count.index + 1) : var.name
+      Name = var.instance_count > 1 || var.use_num_suffix ? local.hostnames[count.index] : var.name
     },
     var.volume_tags,
   )

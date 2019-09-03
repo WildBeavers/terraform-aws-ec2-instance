@@ -7,7 +7,7 @@
 | name | Name to be used on all resources as prefix | string | n/a | yes |
 | vpc_security_group_ids | A list of security group IDs to associate with | list(string) | n/a | yes |
 | associate_public_ip_address | If true, the EC2 instance will have associated public IP address | bool | `"false"` | no |
-| attached_block_device | List of additional EBS block devices to attach after an instance     has been created. Either use this variable or `ebs_block_device`,     but not both.<br><br>    Each element of the list suports the foloowing volume configuration items     (provided as a map):<br><br>    * `encrypted`<br>     * `iops`<br>     * `kms_key_id`<br>     * `volume_size`<br>     * `snapshot_id`<br>     * `volume_type`<br><br><br>    For a description of the configration items see     [aws_ebs_volume](https://www.terraform.io/docs/providers/aws/r/ebs_volume.html#argument-reference) | list(map(string)) | `[]` | no |
+| attached_block_device | List of additional EBS block devices to attach after an instance     has been created. Either use this variable or `ebs_block_device`,     but not both.<br><br>    Each element of the list supports the following volume configuration items     (provided as a map):<br><br>    * `encrypted`<br>     * `iops`<br>     * `kms_key_id`<br>     * `volume_size`<br>     * `snapshot_id`<br>     * `volume_type`<br><br><br>    For a description of the configration items see     [aws_ebs_volume](https://www.terraform.io/docs/providers/aws/r/ebs_volume.html#argument-reference) | list(map(string)) | `[]` | no |
 | cpu_credits | The credit option for CPU usage (unlimited or standard) | string | `"standard"` | no |
 | disable_api_termination | If true, enables EC2 Instance Termination Protection | bool | `"false"` | no |
 | ebs_block_device | Additional EBS block devices to attach to the instance. Either use this variable or attached_block_device but not both | list(map(string)) | `[]` | no |
@@ -32,6 +32,6 @@
 | tags | A mapping of tags to assign to the resource | map(string) | `{}` | no |
 | tenancy | The tenancy of the instance (if the instance is running in a VPC). Available values: default, dedicated, host. | string | `"default"` | no |
 | use_num_suffix | Always append numerical suffix to instance name, even if instance_count is 1 | bool | `"false"` | no |
-| user_data | The user data to provide when launching the instance | string | `""` | no |
+| user_data | The user data to provide when launching the instance.<br><br>    For each instance a separate user_data is generated and the variable     `hostname` is replaced by the generated instance name.     In the string, the variable must be preceded by a dollar sign     and enclosed in curly brackets     (`$hostname` and `{hostname}` are __not__ replaced). | string | `""` | no |
 | volume_tags | A mapping of tags to assign to the devices created by the instance at launch time | map(string) | `{}` | no |
 
