@@ -1,7 +1,6 @@
 locals {
-  hostname_formatstring = "%s-%d"
-  hostnames             = formatlist(local.hostname_formatstring, var.name, range(1, var.instance_count + 1))
-  is_t_instance_type    = replace(var.instance_type, "/^t[23]{1}\\..*$/", "1") == "1" ? true : false
+  hostnames                   = formatlist(var.hostname_formatstring, var.name, range(1, var.instance_count + 1))
+  is_t_instance_type          = replace(var.instance_type, "/^t[23]{1}\\..*$/", "1") == "1" ? true : false
   attached_block_device_count = length(var.attached_block_device)
   attached_block_device_total = var.instance_count * local.attached_block_device_count
   subnet_ids                  = distinct(compact(concat([var.subnet_id], var.subnet_ids)))

@@ -14,6 +14,7 @@
 | ebs_optimized | If true, the launched EC2 instance will be EBS-optimized | bool | `"false"` | no |
 | ephemeral_block_device | Customize Ephemeral (also known as Instance Store) volumes on the instance | list(map(string)) | `[]` | no |
 | get_password_data | If true, wait for password data to become available and retrieve it. | bool | `"false"` | no |
+| hostname_formatstring | Format string for generating the hostname of an instance.     The `name` and instance count are used as parameters.<br><br>    The [Specification Syntax](https://www.terraform.io/docs/configuration/functions/format.html)     contains a description of formatting sequences.     It is important that a valid padding character is used     in order to prevent space(s) in the hostname     (e.g. use `"%s-%02d"` but __not__ `"%s-%2d"`)<br><br>    This value is only used when `use_num_suffix==true` or     more than one instance is created. | string | `"%s-%d"` | no |
 | iam_instance_profile | The IAM Instance Profile to launch the instance with. Specified as the name of the Instance Profile. | string | `""` | no |
 | instance_count | Number of instances to launch | number | `"1"` | no |
 | instance_initiated_shutdown_behavior | Shutdown behavior for the instance | string | `""` | no |

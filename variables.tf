@@ -210,3 +210,21 @@ variable "use_num_suffix" {
   type        = bool
   default     = false
 }
+
+variable "hostname_formatstring" {
+  description = <<EOF
+    Format string for generating the hostname of an instance.
+    The `name` and instance count are used as parameters.
+
+    The [Specification Syntax](https://www.terraform.io/docs/configuration/functions/format.html)
+    contains a description of formatting sequences.
+    It is important that a valid padding character is used
+    in order to prevent space(s) in the hostname
+    (e.g. use `"%s-%02d"` but __not__ `"%s-%2d"`)
+
+    This value is only used when `use_num_suffix==true` or
+    more than one instance is created.
+  EOF
+  type        = string
+  default     = "%s-%d"
+}
