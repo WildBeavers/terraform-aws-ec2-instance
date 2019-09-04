@@ -69,7 +69,7 @@ output "credit_specification" {
     Deprecation Notice:
       To continue using this value, like in earlier versions, please use the
       following expression:
-      ${flatten(module.module_name.instances.*.credit_specification)}
+      flatten(module.module_name.instances.*.credit_specification)
   EOF
 
   value = "${local.this_credit_specification}"
