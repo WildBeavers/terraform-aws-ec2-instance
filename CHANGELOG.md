@@ -4,7 +4,7 @@
 - Fixed creation and attachment of additional EBS volumes ([#1](https://github.com/WildBeavers/terraform-aws-ec2-instance/issues/1))
 - Add replacement of `${hostname}` in `user_data` with the hostname of the EC2 instance ([#2](https://github.com/WildBeavers/terraform-aws-ec2-instance/issues/2))
 - Change `ignore_changes` of lifecycle for EC2 instance: use hard coded values `ami` and `user_data` ([#3](https://github.com/WildBeavers/terraform-aws-ec2-instance/issues/3))
-
+- Support new Terraform 0.12 feature: EC2 instance as output  ([#4](https://github.com/WildBeavers/terraform-aws-ec2-instance/issues/4))
 
 <a name="v2.6.0"></a>
 ## [v2.6.0] - 2019-07-21
