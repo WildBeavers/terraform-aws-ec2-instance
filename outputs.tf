@@ -6,6 +6,12 @@
 
     ######################################################################### */
 
+/*  -------------------------------------------------------------------------
+    Deprecated Locals
+
+    The following Locals are deprecated. They all can be replaced by
+    referencing the `instances` Output.
+    ------------------------------------------------------------------------- */
 locals {
   this_availability_zone            = "${compact(coalescelist(aws_instance.this.*.availability_zone, [""]))}"
   this_credit_specification         = "${flatten(aws_instance.this.*.credit_specification)}"
@@ -25,82 +31,238 @@ locals {
   this_vpc_security_group_ids       = "${coalescelist(flatten(aws_instance.this.*.vpc_security_group_ids), [""])}"
 }
 
+/*  -------------------------------------------------------------------------
+    Deprecated Outputs
+
+    The following Outputs are deprecated. They all can be replaced by
+    referencing the `instances` Output. Examples for a drop-in replacement
+    have been added to each deprecated Output.
+    ------------------------------------------------------------------------- */
+
 output "availability_zone" {
-  description = "List of availability zones of instances"
-  value       = "${local.this_availability_zone}"
+  description = <<EOF
+    (DEPRECATED)
+    List of availability zones of instances
+
+    Deprecation Notice:
+      To continue using this value, like in earlier versions, please use the
+      following expression:
+      module.module_name.instances.*.availability_zone
+  EOF
+
+  value = "${local.this_availability_zone}"
 }
 
 output "credit_specification" {
-  description = "List of credit specification of instances"
-  value       = "${local.this_credit_specification}"
+  description = <<EOF
+    (DEPRECATED)
+    List of credit specification of instances
+
+    Deprecation Notice:
+      To continue using this value, like in earlier versions, please use the
+      following expression:
+      ${flatten(module.module_name.instances.*.credit_specification)}
+  EOF
+
+  value = "${local.this_credit_specification}"
 }
 
 output "id" {
-  description = "List of IDs of instances"
-  value       = "${local.this_id}"
+  description = <<EOF
+    (DEPRECATED)
+    List of IDs of instances
+
+    Deprecation Notice:
+      To continue using this value, like in earlier versions, please use the
+      following expression:
+      module.module_name.instances.*.id
+  EOF
+
+  value = "${local.this_id}"
 }
 
 output "key_name" {
-  description = "List of key names of instances"
-  value       = "${local.this_key_name}"
+  description = <<EOF
+    (DEPRECATED)
+    List of key names of instances
+
+    Deprecation Notice:
+      To continue using this value, like in earlier versions, please use the
+      following expression:
+      module.module_name.instances.*.key_name
+  EOF
+
+  value = "${local.this_key_name}"
 }
 
 output "password_data" {
-  description = "List of Base-64 encoded encrypted password data for the instance"
-  value       = "${local.this_password_data}"
+  description = <<EOF
+    (DEPRECATED)
+    List of Base-64 encoded encrypted password data for the instance
+
+    Deprecation Notice:
+      To continue using this value, like in earlier versions, please use the
+      following expression:
+      module.module_name.instances.*.password_data
+  EOF
+
+  value = "${local.this_password_data}"
 }
 
 output "placement_group" {
-  description = "List of placement groups of instances"
-  value       = "${local.this_placement_group}"
+  description = <<EOF
+    (DEPRECATED)
+    List of placement groups of instances
+
+    Deprecation Notice:
+      To continue using this value, like in earlier versions, please use the
+      following expression:
+      compact(module.module_name.instances.*.placement_group)
+  EOF
+
+  value = "${local.this_placement_group}"
 }
 
 output "primary_network_interface_id" {
-  description = "List of IDs of the primary network interface of instances"
-  value       = "${local.this_primary_network_interface_id}"
+  description = <<EOF
+    (DEPRECATED)
+    List of IDs of the primary network interface of instances
+
+    Deprecation Notice:
+      To continue using this value, like in earlier versions, please use the
+      following expression:
+      module.module_name.instances.*.primary_network_interface_id
+  EOF
+
+  value = "${local.this_primary_network_interface_id}"
 }
 
 output "private_dns" {
-  description = "List of private DNS names assigned to the instances. Can only be used inside the Amazon EC2, and only available if you've enabled DNS hostnames for your VPC"
-  value       = "${local.this_private_dns}"
+  description = <<EOF
+    (DEPRECATED)
+    List of private DNS names assigned to the instances. Can only be used
+      inside the Amazon EC2, and only available if you've enabled DNS
+      hostnames for your VPC
+
+    Deprecation Notice:
+      To continue using this value, like in earlier versions, please use the
+      following expression:
+      module.module_name.instances.*.private_dns
+  EOF
+
+  value = "${local.this_private_dns}"
 }
 
 output "private_ip" {
-  description = "List of private IP addresses assigned to the instances"
-  value       = "${local.this_private_ip}"
+  description = <<EOF
+    (DEPRECATED)
+    List of private IP addresses assigned to the instances
+
+    Deprecation Notice:
+      To continue using this value, like in earlier versions, please use the
+      following expression:
+      module.module_name.instances.*.private_ip
+  EOF
+
+  value = "${local.this_private_ip}"
 }
 
 output "public_dns" {
-  description = "List of public DNS names assigned to the instances. For EC2-VPC, this is only available if you've enabled DNS hostnames for your VPC"
-  value       = "${local.this_public_dns}"
+  description = <<EOF
+    (DEPRECATED)
+    List of public DNS names assigned to the instances. For EC2-VPC, this is
+      only available if you've enabled DNS hostnames for your VPC
+
+    Deprecation Notice:
+      To continue using this value, like in earlier versions, please use the
+      following expression:
+      compact(module.module_name.instances.*.public_dns)
+  EOF
+
+  value = "${local.this_public_dns}"
 }
 
 output "public_ip" {
-  description = "List of public IP addresses assigned to the instances, if applicable"
-  value       = "${local.this_public_ip}"
+  description = <<EOF
+    (DEPRECATED)
+    List of public IP addresses assigned to the instances, if applicable
+
+    Deprecation Notice:
+      To continue using this value, like in earlier versions, please use the
+      following expression:
+      compact(module.module_name.instances.*.public_ip)
+  EOF
+
+  value = "${local.this_public_ip}"
 }
 
 output "security_groups" {
-  description = "List of associated security groups of instances"
-  value       = "${local.this_security_groups}"
+  description = <<EOF
+    (DEPRECATED)
+    List of associated security groups of instances
+
+    Deprecation Notice:
+      To continue using this value, like in earlier versions, please use the
+      following expression:
+      module.module_name.instances.*.security_groups
+  EOF
+
+  value = "${local.this_security_groups}"
 }
 
 output "subnet_id" {
-  description = "List of IDs of VPC subnets of instances"
-  value       = "${local.this_subnet_id}"
+  description = <<EOF
+    (DEPRECATED)
+    List of IDs of VPC subnets of instances
+
+    Deprecation Notice:
+      To continue using this value, like in earlier versions, please use the
+      following expression:
+      module.module_name.instances.*.subnet_id
+  EOF
+
+  value = "${local.this_subnet_id}"
 }
 
 output "tags" {
-  description = "List of tags of instances"
-  value       = "${local.this_tags}"
+  description = <<EOF
+    (DEPRECATED)
+    List of tags of instances
+
+    Deprecation Notice:
+      To continue using this value, like in earlier versions, please use the
+      following expression:
+      module.module_name.instances.*.tags
+  EOF
+
+  value = "${local.this_tags}"
 }
 
 output "volume_tags" {
-  description = "List of tags of volumes of instances"
-  value       = "${local.this_volume_tags}"
+  description = <<EOF
+    (DEPRECATED)
+    List of tags of volumes of instances
+
+    Deprecation Notice:
+      To continue using this value, like in earlier versions, please use the
+      following expression:
+      module.module_name.instances.*.volume_tags
+  EOF
+
+  value = "${local.this_volume_tags}"
 }
 
 output "vpc_security_group_ids" {
-  description = "List of associated security groups of instances, if running in non-default VPC"
-  value       = "${local.this_vpc_security_group_ids}"
+  description = <<EOF
+    (DEPRECATED)
+    List of associated security groups of instances,
+      if running  in non-default VPC
+
+    Deprecation Notice:
+      To continue using this value, like in earlier versions, please use the
+      following expression:
+      flatten(module.module_name.instances.*.vpc_security_group_ids)
+  EOF
+
+  value = "${local.this_vpc_security_group_ids}"
 }
