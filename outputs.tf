@@ -31,6 +31,14 @@ locals {
   this_vpc_security_group_ids       = "${coalescelist(flatten(aws_instance.this.*.vpc_security_group_ids), [""])}"
 }
 
+output "instances" {
+  description = <<EOF
+    List of EC2 Instance Objects
+  EOF
+
+  value = "${aws_instance.this}"
+}
+
 /*  -------------------------------------------------------------------------
     Deprecated Outputs
 
