@@ -1,5 +1,5 @@
 locals {
-  hostnames                   = formatlist(var.hostname_formatstring, var.name, range(1, var.instance_count + 1))
+  hostnames                   = var.instance_count > 1 || var.use_num_suffix ? formatlist(var.hostname_formatstring, var.name, range(1, var.instance_count + 1)) : [var.name]
   is_t_instance_type          = replace(var.instance_type, "/^t[23]{1}\\..*$/", "1") == "1" ? true : false
   attached_block_device_count = length(var.attached_block_device)
   attached_block_device_total = var.instance_count * local.attached_block_device_count
@@ -45,7 +45,7 @@ resource "aws_instance" "this" {
   iam_instance_profile   = var.iam_instance_profile
 
   associate_public_ip_address = var.associate_public_ip_address
-  private_ip                  = length(var.private_ips) > 0 ? element(var.private_ips, count.index) : var.private_ip
+  private_ip                  = length(var.private_ips) > 0 ? var.private_ips[count.index] : var.private_ip
   ipv6_address_count          = var.ipv6_address_count
   ipv6_addresses              = var.ipv6_addresses
 
@@ -91,14 +91,14 @@ resource "aws_instance" "this" {
 
   tags = merge(
     {
-      Name = var.instance_count > 1 || var.use_num_suffix ? local.hostnames[count.index] : var.name
+      Name = local.hostnames[count.index]
     },
     var.tags,
   )
 
   volume_tags = merge(
     {
-      Name = var.instance_count > 1 || var.use_num_suffix ? local.hostnames[count.index] : var.name
+      Name = local.hostnames[count.index]
     },
     var.volume_tags,
   )
@@ -160,7 +160,7 @@ resource "aws_ebs_volume" "this" {
 
   tags = merge(
     {
-      Name = var.instance_count > 1 || var.use_num_suffix ? format("%s-%d", var.name, floor(count.index / local.attached_block_device_count) + 1) : var.name
+      Name = local.hostnames[floor(count.index / local.attached_block_device_count)]
     },
     var.volume_tags,
   )
