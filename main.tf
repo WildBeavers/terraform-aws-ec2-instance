@@ -98,7 +98,7 @@ resource "aws_instance" "this" {
 
   volume_tags = merge(
     {
-      Name = local.hostnames[count.index]
+      Name = "${local.hostnames[count.index]}${var.volume_tag_name_suffix}"
     },
     var.volume_tags,
   )
@@ -160,7 +160,9 @@ resource "aws_ebs_volume" "this" {
 
   tags = merge(
     {
-      Name = local.hostnames[floor(count.index / local.attached_block_device_count)]
+      Name = "${local.hostnames[floor(count.index / local.attached_block_device_count)]}${lookup(var.attached_block_device[
+            count.index % local.attached_block_device_count
+          ], "volume_tag_name_suffix", "")}"
     },
     var.volume_tags,
   )

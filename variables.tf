@@ -151,9 +151,38 @@ variable "volume_tags" {
   type        = map(string)
   default     = {}
 }
+variable "volume_tag_name_suffix" {
+  description = <<EOF
+    A `Name` tag with the hostname is automatically added to the `volume_tags`.
+    This variable allows to configure a suffix which appended.
+
+    Remark: The same suffix is used for th following device types:
+    `root_block_device`, `ebs_block_device` and `ephemeral_block_device`.
+    It is not possible to specify a different suffix for each volume (only
+    `attached_block_device` supports this).
+  EOF
+  type        = string
+  default     = ""
+}
 
 variable "root_block_device" {
-  description = "Customize details about the root block device of the instance. See Block Devices below for details"
+  description = <<EOF
+    Customize details about the root block device of the instance(s).
+    The list must contain zero or one entries
+    (more than one root device is not allowed).
+
+    Each element of the list supports the following volume configuration items
+    (provided as a map):
+
+    * `delete_on_termination`<br>
+    * `iops`<br>
+    * `volume_size`<br>
+    * `volume_type`<br>
+
+    For a description of the configration items see
+    [Block devices](https://www.terraform.io/docs/providers/aws/r/instance.html#block-devices)
+    (section `root_block_device`)
+  EOF
   type        = list(map(string))
   default     = []
 }
@@ -176,19 +205,54 @@ variable "attached_block_device" {
 
     For a description of the configration items see
     [aws_ebs_volume](https://www.terraform.io/docs/providers/aws/r/ebs_volume.html#argument-reference)
+
+    Additionally the following config item exists:
+
+    * `volume_tag_name_suffix` - suffix which is appended to the hostname and used for the `Name` tag of the volume
   EOF
   type        = list(map(string))
   default     = []
 }
 
 variable "ebs_block_device" {
-  description = "Additional EBS block devices to attach to the instance. Either use this variable or attached_block_device but not both"
+  description = <<EOF
+    List of EBS block devices to attach to the instance.
+    Either use this variable or `attached_block_device` but not both.
+
+    Each element of the list supports the following volume configuration items
+    (provided as a map):
+
+    * `delete_on_termination`<br>
+    * `device_name`<br>
+    * `encrypted`<br>
+    * `iops`<br>
+    * `snapshot_id`<br>
+    * `volume_size`<br>
+    * `volume_type`<br>
+
+    For a description of the configration items see
+    [Block devices](https://www.terraform.io/docs/providers/aws/r/instance.html#block-devices)
+    (section `ebs_block_device`)
+  EOF
   type        = list(map(string))
   default     = []
 }
 
 variable "ephemeral_block_device" {
-  description = "Customize Ephemeral (also known as Instance Store) volumes on the instance"
+  description = <<EOF
+    List of Ephemeral (also known as Instance Store) volumes on the instance.
+
+    Each element of the list supports the following volume configuration items
+    (provided as a map):
+
+    * `device_name`<br>
+    * `no_device`<br>
+    * `virtual_name`<br>
+
+    For a description of the configration items see
+    [Block devices](https://www.terraform.io/docs/providers/aws/r/instance.html#block-devices)
+    (section `ephemeral_block_device`)
+  EOF
   type        = list(map(string))
   default     = []
 }
