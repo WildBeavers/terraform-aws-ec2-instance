@@ -9,6 +9,23 @@ variable "instance_count" {
   default     = 1
 }
 
+variable "instance_private_dns_record" {
+  type        = map(string)
+  description = <<EOF
+    Mapping to configure private dns records.
+
+    The mapping must contain the following configuration items:
+
+    * `domain`<br>
+    * `hosted_zone_id`<br>
+    * `ttl`<br>
+
+    For a description of the configuration items see
+    [Resource: aws_route53_record](https://www.terraform.io/docs/providers/aws/r/route53_record.html#argument-reference)
+  EOF
+  default     = {}
+}
+
 variable "ami" {
   description = "ID of AMI to use for the instance"
   type        = string
@@ -187,7 +204,7 @@ variable "root_block_device" {
     * `volume_size`<br>
     * `volume_type`<br>
 
-    For a description of the configration items see
+    For a description of the configuration items see
     [Block devices](https://www.terraform.io/docs/providers/aws/r/instance.html#block-devices)
     (section `root_block_device`)
   EOF
@@ -211,7 +228,7 @@ variable "attached_block_device" {
     * `snapshot_id`<br>
     * `volume_type`<br>
 
-    For a description of the configration items see
+    For a description of the configuration items see
     [aws_ebs_volume](https://www.terraform.io/docs/providers/aws/r/ebs_volume.html#argument-reference)
 
     Additionally the following config item exists:
@@ -238,7 +255,7 @@ variable "ebs_block_device" {
     * `volume_size`<br>
     * `volume_type`<br>
 
-    For a description of the configration items see
+    For a description of the configuration items see
     [Block devices](https://www.terraform.io/docs/providers/aws/r/instance.html#block-devices)
     (section `ebs_block_device`)
   EOF
@@ -257,7 +274,7 @@ variable "ephemeral_block_device" {
     * `no_device`<br>
     * `virtual_name`<br>
 
-    For a description of the configration items see
+    For a description of the configuration items see
     [Block devices](https://www.terraform.io/docs/providers/aws/r/instance.html#block-devices)
     (section `ephemeral_block_device`)
   EOF

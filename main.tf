@@ -3,7 +3,7 @@ locals {
   is_t_instance_type          = replace(var.instance_type, "/^t[23]{1}\\..*$/", "1") == "1" ? true : false
   attached_block_device_count = length(var.attached_block_device)
   attached_block_device_total = var.instance_count * local.attached_block_device_count
-  subnet_ids                  = coalescelist(var.subnet_ids,[var.subnet_id])
+  subnet_ids                  = coalescelist(var.subnet_ids, [var.subnet_id])
 }
 
 /*  =========================================================================
@@ -161,8 +161,8 @@ resource "aws_ebs_volume" "this" {
   tags = merge(
     {
       Name = "${local.hostnames[floor(count.index / local.attached_block_device_count)]}${lookup(var.attached_block_device[
-            count.index % local.attached_block_device_count
-          ], "volume_tag_name_suffix", "")}"
+        count.index % local.attached_block_device_count
+      ], "volume_tag_name_suffix", "")}"
     },
     var.volume_tags,
   )
@@ -180,3 +180,12 @@ resource "aws_volume_attachment" "this" {
   volume_id = aws_ebs_volume.this[count.index].id
 }
 
+resource "aws_route53_record" "a" {
+  count = lookup(var.instance_private_dns_record, "domain", null) != null && lookup(var.instance_private_dns_record, "hosted_zone_id", null) != null && lookup(var.instance_private_dns_record, "ttl", null) != null ? var.instance_count : 0
+
+  name    = "${local.hostnames[count.index]}.${var.instance_private_dns_record.domain}"
+  records = [aws_instance.this[count.index].private_ip]
+  ttl     = var.instance_private_dns_record.ttl
+  type    = "A"
+  zone_id = var.instance_private_dns_record.hosted_zone_id
+}
