@@ -1,6 +1,8 @@
 <a name="unreleased"></a>
 ## [Unreleased]
 
+<a name="v2.6.0"></a>
+## [v2.7.0] - 2019-09-06
 - Fixed creation and attachment of additional EBS volumes ([#1](https://github.com/WildBeavers/terraform-aws-ec2-instance/issues/1))
 - Add replacement of `${hostname}` in `user_data` with the hostname of the EC2 instance ([#2](https://github.com/WildBeavers/terraform-aws-ec2-instance/issues/2))
 - Change `ignore_changes` of lifecycle for EC2 instance: use hard coded values `ami` and `user_data` ([#3](https://github.com/WildBeavers/terraform-aws-ec2-instance/issues/3))
@@ -264,40 +266,41 @@
 - Initial commit
 
 
-[Unreleased]: https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/compare/v2.6.0...HEAD
-[v2.6.0]: https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/compare/v2.5.0...v2.6.0
-[v2.5.0]: https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/compare/v2.4.0...v2.5.0
-[v2.4.0]: https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/compare/v2.3.0...v2.4.0
-[v2.3.0]: https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/compare/v2.2.0...v2.3.0
-[v2.2.0]: https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/compare/v2.1.0...v2.2.0
-[v2.1.0]: https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/compare/v1.24.0...v2.1.0
-[v1.24.0]: https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/compare/v1.23.0...v1.24.0
-[v1.23.0]: https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/compare/v2.0.0...v1.23.0
-[v2.0.0]: https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/compare/v1.22.0...v2.0.0
-[v1.22.0]: https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/compare/v1.21.0...v1.22.0
-[v1.21.0]: https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/compare/v1.20.0...v1.21.0
-[v1.20.0]: https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/compare/v1.19.0...v1.20.0
-[v1.19.0]: https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/compare/v1.18.0...v1.19.0
-[v1.18.0]: https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/compare/v1.17.0...v1.18.0
-[v1.17.0]: https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/compare/v1.16.0...v1.17.0
-[v1.16.0]: https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/compare/v1.15.0...v1.16.0
-[v1.15.0]: https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/compare/v1.14.0...v1.15.0
-[v1.14.0]: https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/compare/v1.13.0...v1.14.0
-[v1.13.0]: https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/compare/v1.12.0...v1.13.0
-[v1.12.0]: https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/compare/v1.11.0...v1.12.0
-[v1.11.0]: https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/compare/v1.10.0...v1.11.0
-[v1.10.0]: https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/compare/v1.9.0...v1.10.0
-[v1.9.0]: https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/compare/v1.8.0...v1.9.0
-[v1.8.0]: https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/compare/v1.7.0...v1.8.0
-[v1.7.0]: https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/compare/v1.6.0...v1.7.0
-[v1.6.0]: https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/compare/v1.5.0...v1.6.0
-[v1.5.0]: https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/compare/v1.4.0...v1.5.0
-[v1.4.0]: https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/compare/v1.3.0...v1.4.0
-[v1.3.0]: https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/compare/v1.2.1...v1.3.0
-[v1.2.1]: https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/compare/v1.2.0...v1.2.1
-[v1.2.0]: https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/compare/v1.1.0...v1.2.0
-[v1.1.0]: https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/compare/v1.0.4...v1.1.0
-[v1.0.4]: https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/compare/v1.0.3...v1.0.4
-[v1.0.3]: https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/compare/v1.0.2...v1.0.3
-[v1.0.2]: https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/compare/v1.0.1...v1.0.2
-[v1.0.1]: https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/compare/v1.0.0...v1.0.1
+[Unreleased]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v2.7.0...HEAD
+[v2.7.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v2.6.0...v2.7.0
+[v2.6.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v2.5.0...v2.6.0
+[v2.5.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v2.4.0...v2.5.0
+[v2.4.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v2.3.0...v2.4.0
+[v2.3.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v2.2.0...v2.3.0
+[v2.2.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v2.1.0...v2.2.0
+[v2.1.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v1.24.0...v2.1.0
+[v1.24.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v1.23.0...v1.24.0
+[v1.23.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v2.0.0...v1.23.0
+[v2.0.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v1.22.0...v2.0.0
+[v1.22.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v1.21.0...v1.22.0
+[v1.21.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v1.20.0...v1.21.0
+[v1.20.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v1.19.0...v1.20.0
+[v1.19.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v1.18.0...v1.19.0
+[v1.18.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v1.17.0...v1.18.0
+[v1.17.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v1.16.0...v1.17.0
+[v1.16.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v1.15.0...v1.16.0
+[v1.15.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v1.14.0...v1.15.0
+[v1.14.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v1.13.0...v1.14.0
+[v1.13.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v1.12.0...v1.13.0
+[v1.12.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v1.11.0...v1.12.0
+[v1.11.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v1.10.0...v1.11.0
+[v1.10.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v1.9.0...v1.10.0
+[v1.9.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v1.8.0...v1.9.0
+[v1.8.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v1.7.0...v1.8.0
+[v1.7.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v1.6.0...v1.7.0
+[v1.6.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v1.5.0...v1.6.0
+[v1.5.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v1.4.0...v1.5.0
+[v1.4.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v1.3.0...v1.4.0
+[v1.3.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v1.2.1...v1.3.0
+[v1.2.1]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v1.2.0...v1.2.1
+[v1.2.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v1.1.0...v1.2.0
+[v1.1.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v1.0.4...v1.1.0
+[v1.0.4]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v1.0.3...v1.0.4
+[v1.0.3]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v1.0.2...v1.0.3
+[v1.0.2]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v1.0.1...v1.0.2
+[v1.0.1]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v1.0.0...v1.0.1
