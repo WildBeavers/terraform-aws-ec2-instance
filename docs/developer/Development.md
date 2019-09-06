@@ -19,19 +19,15 @@ Therefore both files must use the old Terraform 0.11 syntax for:
 
 ### Installation of terraform-docs
 
-There are several ways to install the tool:
-
-* Download the precompiled binary from the
-  [release page](https://github.com/segmentio/terraform-docs/releases/)
-
-* using `go get` (requires installed Go)
+The option `--no-escape` is required but currently not released,
+therfore the tool must be installed by using `go get` (requires installed Go):
 
       GO111MODULE=off go get github.com/segmentio/terraform-docs
 
 ### Using terraform-docs
 
 The [Makefile](../../Makefile) contains a target `documentation`
-for generating the documentation and add the files to git.
+for generating the documentation and adding the files to git.
 
       make
       # or
@@ -46,8 +42,8 @@ for generating the documentation and add the files to git.
 1.  update [CHANGELOG.md](../../CHANGELOG.md):
     * add heading for new release version, e.g.
 
-        <a name="v2.7.0"></a>
-        ## [v2.7.0] - 2019-09-06
+          <a name="v2.7.0"></a>
+          ## [v2.7.0] - 2019-09-06
     * update diff links at the end of the document
 1.  after the changes have been committed, create a release tag
     (`vMajor.Minor.Patch`)
