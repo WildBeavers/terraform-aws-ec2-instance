@@ -73,7 +73,15 @@ variable "vpc_security_group_ids" {
 }
 
 variable "subnet_id" {
-  description = "The VPC Subnet ID to launch in"
+  description = <<EOF
+    (DEPRECATED)
+    The VPC Subnet ID to launch in.
+
+    This parameter can not be used together with the `subnet_ids` parameter.
+
+    Deprecation Notice:
+      Use the following parameter instead: `subnet_ids`
+  EOF
   type        = string
   default     = ""
 }

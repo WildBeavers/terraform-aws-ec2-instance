@@ -1,8 +1,12 @@
 <a name="unreleased"></a>
 ## [Unreleased]
 
+- Fix error when VPC and EC2 instances are created together ([#1](https://github.com/WildBeavers/terraform-aws-ec2-instance/issues/1)).
+  Parameter `subnet_id` is deprecated and can not be used together with `subnet_ids`.
+
 <a name="v2.7.0"></a>
 ## [v2.7.0] - 2019-09-06
+
 - Fixed creation and attachment of additional EBS volumes ([#1](https://github.com/WildBeavers/terraform-aws-ec2-instance/issues/1))
 - Add replacement of `${hostname}` in `user_data` with the hostname of the EC2 instance ([#2](https://github.com/WildBeavers/terraform-aws-ec2-instance/issues/2))
 - Change `ignore_changes` of lifecycle for EC2 instance: use hard coded values `ami` and `user_data` ([#3](https://github.com/WildBeavers/terraform-aws-ec2-instance/issues/3))

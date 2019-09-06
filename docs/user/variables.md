@@ -28,7 +28,7 @@
 | private_ips | A list of private IP address to associate with the instance in a VPC. Should match the number of instances. | list(string) | `[]` | no |
 | root_block_device | Customize details about the root block device of the instance(s).     The list must contain zero or one entries     (more than one root device is not allowed).<br><br>    Each element of the list supports the following volume configuration items     (provided as a map):<br><br>    * `delete_on_termination`<br>     * `iops`<br>     * `volume_size`<br>     * `volume_type`<br><br><br>    For a description of the configration items see     [Block devices](https://www.terraform.io/docs/providers/aws/r/instance.html#block-devices)     (section `root_block_device`) | list(map(string)) | `[]` | no |
 | source_dest_check | Controls if traffic is routed to the instance when the destination address does not match the instance. Used for NAT or VPNs. | bool | `"true"` | no |
-| subnet_id | The VPC Subnet ID to launch in | string | `""` | no |
+| subnet_id | (DEPRECATED)     The VPC Subnet ID to launch in.<br><br>    This parameter can not be used together with the `subnet_ids` parameter.<br><br>    Deprecation Notice:       Use the following parameter instead: `subnet_ids` | string | `""` | no |
 | subnet_ids | A list of VPC Subnet IDs to launch in | list(string) | `[]` | no |
 | tags | A mapping of tags to assign to the resource | map(string) | `{}` | no |
 | tenancy | The tenancy of the instance (if the instance is running in a VPC). Available values: default, dedicated, host. | string | `"default"` | no |
