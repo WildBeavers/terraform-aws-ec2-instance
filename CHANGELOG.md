@@ -1,7 +1,7 @@
 <a name="unreleased"></a>
 ## [Unreleased]
 
-- Fix error when VPC and EC2 instances are created together ([#1](https://github.com/WildBeavers/terraform-aws-ec2-instance/issues/1)).
+- Fix error when VPC and EC2 instances are created together ([#13](https://github.com/WildBeavers/terraform-aws-ec2-instance/issues/13)).
   Parameter `subnet_id` is deprecated and can not be used together with `subnet_ids`.
 
 <a name="v2.7.0"></a>
