@@ -1,4 +1,4 @@
-## Outputs
+# Outputs
 
 | Name | Description |
 |------|-------------|

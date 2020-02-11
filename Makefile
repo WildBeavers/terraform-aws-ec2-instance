@@ -17,10 +17,13 @@ release:
 documentation:
 	$(call print_info, "Generating documentation")
 	# generating input parameter documentation
-	sed -E 's/^([[:space:]]*type[[:space:]]*=[[:space:]]*)([^ ]*)(.*)$$/\1"\2"\3/' variables.tf > variables.tf.temp
-	terraform-docs markdown table --no-escape --sort-inputs-by-required --with-aggregate-type-defaults variables.tf.temp > docs/user/variables.md
+	mkdir -p ./tmp/variables
+	cp variables.tf ./tmp/variables/
+	terraform-docs markdown table --no-escape --sort-inputs-by-required --with-aggregate-type-defaults --no-providers --indent 1 --no-outputs ./tmp/variables > docs/user/variables.md
 	git add docs/user/variables.md
 
 	# generating output parameter documentation
-	terraform-docs markdown table --no-escape --sort-inputs-by-required --with-aggregate-type-defaults outputs.tf > docs/user/outputs.md
+	mkdir -p ./tmp/outputs
+	cp outputs.tf ./tmp/outputs/
+	terraform-docs markdown table --no-escape --sort-inputs-by-required --with-aggregate-type-defaults --no-providers --indent 1 --no-inputs ./tmp/outputs/ > docs/user/outputs.md
 	git add docs/user/outputs.md
