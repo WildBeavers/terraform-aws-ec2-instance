@@ -53,24 +53,17 @@ resource "aws_eip" "this" {
   instance = module.ec2.id[0]
 }
 
-resource "aws_placement_group" "web" {
-  name     = "hunky-dory-pg"
-  strategy = "cluster"
-}
-
 module "ec2" {
   source = "../../"
 
-  instance_count = 2
-
-  name          = "example-normal"
-  ami           = data.aws_ami.amazon_linux.id
-  instance_type = "c5.large"
-  subnet_id     = tolist(data.aws_subnet_ids.all.ids)[0]
   //  private_ips                 = ["172.31.32.5", "172.31.46.20"]
-  vpc_security_group_ids      = [module.security_group.this_security_group_id]
+  ami           = data.aws_ami.amazon_linux.id
   associate_public_ip_address = true
-  placement_group             = aws_placement_group.web.id
+  instance_count              = 2
+  instance_type               = "t3.nano"
+  name                        = "example-normal"
+  subnet_id                   = tolist(data.aws_subnet_ids.all.ids)[0]
+  vpc_security_group_ids      = [module.security_group.this_security_group_id]
 
   root_block_device = [
     {
@@ -88,41 +81,38 @@ module "ec2" {
 module "ec2_with_t2_unlimited" {
   source = "../../"
 
-  instance_count = 1
-
-  name          = "example-t2-unlimited"
-  ami           = data.aws_ami.amazon_linux.id
-  instance_type = "t2.micro"
-  cpu_credits   = "unlimited"
-  subnet_id     = tolist(data.aws_subnet_ids.all.ids)[0]
   //  private_ip = "172.31.32.10"
-  vpc_security_group_ids      = [module.security_group.this_security_group_id]
+  ami                         = data.aws_ami.amazon_linux.id
   associate_public_ip_address = true
+  cpu_credits                 = "unlimited"
+  instance_count              = 1
+  instance_type               = "t2.micro"
+  name                        = "example-t2-unlimited"
+  subnet_id                   = tolist(data.aws_subnet_ids.all.ids)[0]
+  vpc_security_group_ids      = [module.security_group.this_security_group_id]
 }
 
 module "ec2_with_t3_unlimited" {
   source = "../../"
 
-  instance_count = 1
-
-  name                        = "example-t3-unlimited"
   ami                         = data.aws_ami.amazon_linux.id
-  instance_type               = "t3.large"
+  associate_public_ip_address = true
   cpu_credits                 = "unlimited"
+  instance_count              = 1
+  instance_type               = "t3.large"
+  name                        = "example-t3-unlimited"
   subnet_id                   = tolist(data.aws_subnet_ids.all.ids)[0]
   vpc_security_group_ids      = [module.security_group.this_security_group_id]
-  associate_public_ip_address = true
 }
 
 # This instance won't be created
 module "ec2_zero" {
   source = "../../"
 
-  instance_count = 0
-
-  name                   = "example-zero"
   ami                    = data.aws_ami.amazon_linux.id
+  instance_count         = 0
   instance_type          = "c5.large"
+  name                   = "example-zero"
   subnet_id              = tolist(data.aws_subnet_ids.all.ids)[0]
   vpc_security_group_ids = [module.security_group.this_security_group_id]
 }

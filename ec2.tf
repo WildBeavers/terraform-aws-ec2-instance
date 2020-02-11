@@ -17,9 +17,9 @@ resource "aws_instance" "this" {
   key_name                             = var.key_name
   monitoring                           = var.monitoring
   placement_group                      = var.placement_group
-  private_ip                           = length(var.private_ips) > 0 ? var.private_ips[count.index] : var.private_ip
+  private_ip                           = length(var.private_ips) > 0 ? var.private_ips[count.index] : ""
   source_dest_check                    = var.source_dest_check
-  subnet_id                            = local.subnet_ids[count.index % length(local.subnet_ids)]
+  subnet_id                            = var.subnet_ids[count.index % length(var.subnet_ids)]
   tenancy                              = var.tenancy
   user_data                            = data.template_file.user_data[count.index].rendered
   vpc_security_group_ids               = var.vpc_security_group_ids

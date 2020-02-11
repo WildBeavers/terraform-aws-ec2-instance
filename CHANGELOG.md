@@ -3,6 +3,12 @@
 
 - Fix error when VPC and EC2 instances are created together ([#13](https://github.com/WildBeavers/terraform-aws-ec2-instance/issues/13)).
   Parameter `subnet_id` is deprecated and can not be used together with `subnet_ids`.
+- when variables has existed for a single value and a list of values
+  then the single value variable has been removed (`private_ip`, `subnet_id`)  
+  => variable `subnet_ids` is now required
+- deprecated outputs have been removed
+- instances are returned as a list of instances
+- Route53 A records are added to the outputs
 
 <a name="v2.7.0"></a>
 ## [v2.7.0] - 2019-09-06

@@ -5,7 +5,7 @@ resource "aws_ebs_volume" "this" {
   count = local.attached_block_device_total
 
   availability_zone = data.aws_subnet.this[
-    floor(count.index / local.attached_block_device_count) % length(local.subnet_ids)
+    floor(count.index / local.attached_block_device_count) % length(var.subnet_ids)
   ].availability_zone
 
   encrypted = lookup(var.attached_block_device[

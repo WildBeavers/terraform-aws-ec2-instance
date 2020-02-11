@@ -13,9 +13,9 @@ locals {
     are destroyed when an EC2 instance is recreated.
     ========================================================================= */
 data "aws_subnet" "this" {
-  count = length(local.subnet_ids)
+  count = length(var.subnet_ids)
 
-  id = local.subnet_ids[count.index]
+  id = var.subnet_ids[count.index]
 }
 
 data "template_file" "user_data" {
