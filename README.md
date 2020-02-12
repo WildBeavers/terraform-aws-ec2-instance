@@ -18,18 +18,16 @@ to backport features for Terraform 0.11. Pin module version to `~> v2.0`.
 
 ```hcl
 module "ec2_cluster" {
-  source                 = "terraform-aws-modules/ec2-instance/aws"
-  version                = "~> 2.0"
-
-  name                   = "my-cluster"
-  instance_count         = 5
+  source                 = "github.com/WildBeavers/terraform-aws-ec2-instance.git?ref=master"
 
   ami                    = "ami-ebd02392"
+  instance_count         = 5
   instance_type          = "t2.micro"
   key_name               = "user1"
   monitoring             = true
-  vpc_security_group_ids = ["sg-12345678"]
+  name                   = "my-cluster"
   subnet_id              = "subnet-eddcdzz4"
+  vpc_security_group_ids = ["sg-12345678"]
 
   tags = {
     Terraform   = "true"

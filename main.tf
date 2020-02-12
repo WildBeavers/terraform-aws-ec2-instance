@@ -3,7 +3,6 @@ locals {
   is_t_instance_type          = replace(var.instance_type, "/^t[23]{1}\\..*$/", "1") == "1" ? true : false
   attached_block_device_count = length(var.attached_block_device)
   attached_block_device_total = var.instance_count * local.attached_block_device_count
-  subnet_ids                  = coalescelist(var.subnet_ids, [var.subnet_id])
 }
 
 /*  =========================================================================

@@ -26,8 +26,7 @@
 | monitoring | If true, the launched EC2 instance will have detailed monitoring enabled. | `bool` | `false` | no |
 | network_interface | Customize network interfaces to be attached at instance boot time. | `list(map(string))` | `[]` | no |
 | placement_group | The Placement Group to start the instance in | `string` | `""` | no |
-| private_ip | Private IP address to associate with the instance in a VPC. | `string` | `""` | no |
-| private_ips | A list of private IP address to associate with the instance in a VPC. Should match the number of instances. | `list(string)` | `[]` | no |
+| private_ips | A list of private IP address to associate with the instance in a VPC.     Should match the number of instances. | `list(string)` | `[]` | no |
 | root_block_device | Customize details about the root block device of the instance(s).     The list must contain zero or one entries     (more than one root device is not allowed).<br><br>    Each element of the list supports the following volume configuration items     (provided as a map):<br><br>    * `delete_on_termination`<br>     * `iops`<br>     * `volume_size`<br>     * `volume_type`<br><br><br>    For a description of the configuration items see     [Block devices](https://www.terraform.io/docs/providers/aws/r/instance.html#block-devices)     (section `root_block_device`) | `list(map(string))` | `[]` | no |
 | source_dest_check | Controls if traffic is routed to the instance when the destination address     does not match the instance. Used for NAT or VPNs. | `bool` | `true` | no |
 | tags | A mapping of tags to assign to the resource. | `map(string)` | `{}` | no |
