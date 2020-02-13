@@ -9,6 +9,11 @@
 - deprecated outputs have been removed
 - instances are returned as a list of instances
 - Route53 A records are added to the outputs
+- use a map for volumes and volumes attachments instead of a list  
+  migrate existing installations with `tf state mv`:
+  
+      # replace ${index}, ${hostname} and ${volumename} accordingly
+      tf state mv 'module.ec2.aws_ebs_volume.this[${index}]' 'module.ec2.aws_ebs_volume.this["${hostname}.${volumename}"]'
 
 <a name="v2.7.0"></a>
 ## [v2.7.0] - 2019-09-06

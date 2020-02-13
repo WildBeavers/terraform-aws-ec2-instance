@@ -8,7 +8,7 @@ output "instances" {
     for all available attributes)
   EOF
 
-  value = [ aws_instance.this.* ]
+  value = aws_instance.this.*
 }
 
 output "a_record" {
@@ -16,5 +16,5 @@ output "a_record" {
     List of Route53 A records.
   EOF
 
-  value = [ aws_route53_record.a.* ]
+  value = aws_route53_record.a.*
 }
