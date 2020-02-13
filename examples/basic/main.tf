@@ -95,17 +95,15 @@ module "ec2" {
   attached_block_device = [
     {
       device_name = "/dev/sdf"
-      encrypted   = "true"
+      volume_name = "docker"
       volume_size = "8"
       volume_type = "standard"
-      # volume_tag_name_suffix = "_docker"
     },
     {
       device_name = "/dev/sdg"
-      encrypted   = "true"
-      volume_size = "8"
+      volume_name = "data"
+      volume_size = "16"
       volume_type = "standard"
-      # volume_tag_name_suffix = "_data"
     }
   ]
 

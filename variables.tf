@@ -22,19 +22,20 @@ variable "attached_block_device" {
     Each element of the list supports the following volume configuration items
     (provided as a map):
 
-    * `encrypted`<br>
-    * `iops`<br>
-    * `kms_key_id`<br>
-    * `volume_size`<br>
-    * `snapshot_id`<br>
-    * `volume_type`<br>
+    * (optional) `encrypted`<br>
+    * (optional) `iops`<br>
+    * (optional) `kms_key_id`<br>
+    * (optional) `snapshot_id`<br>
+    * (optional) `volume_size`<br>
+    * (optional) `volume_type`<br>
 
     For a description of the configuration items see
     [aws_ebs_volume](https://www.terraform.io/docs/providers/aws/r/ebs_volume.html#argument-reference)
 
     Additionally the following config item exists:
 
-    * `volume_tag_name_suffix` - suffix which is appended to the hostname and used for the `Name` tag of the volume
+    * (required) `device_name` - the device name to expose to the instance
+    * (required) `volume_name` - name of volume (must be unique across all block devive)
   EOF
   type        = list(map(string))
   default     = []

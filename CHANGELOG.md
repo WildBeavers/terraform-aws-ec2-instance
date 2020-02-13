@@ -19,6 +19,8 @@
 - Support new Terraform 0.12 feature: EC2 instance as output  ([#4](https://github.com/WildBeavers/terraform-aws-ec2-instance/issues/4))
 - The format string for generating the hostname of an instance can be overridden ([#9](https://github.com/WildBeavers/terraform-aws-ec2-instance/issues/9))
 - support suffix for volume tag `Name` ([#5](https://github.com/WildBeavers/terraform-aws-ec2-instance/issues/5))
+- removed parameter `volume_tag_name_suffix` of variable `attached_block_device`
+- add required parameter `volume_name` to variable `attached_block_device`
 
 <a name="v2.6.0"></a>
 ## [v2.6.0] - 2019-07-21
