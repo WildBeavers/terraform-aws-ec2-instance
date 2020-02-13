@@ -7,22 +7,10 @@ The commandline application
 generating documentation from the files [`variables.tf`](../../variables.tf)
 and [`outputs.tf`](../../outputs.tf).
 
-Currently (v0.6.0) the tool does not yet support HCL2
-(see issue "[#62](https://github.com/segmentio/terraform-docs/issues/62)
-Add support for Terraform 0.12's Rich Value Types" for details).
-Therefore both files must use the old Terraform 0.11 syntax for:
-- interpolation language statements
-- locals and
-- variables
-
-(they must use be surrounded by `"${` and `}"`)
-
-### Installation of terraform-docs
-
-The option `--no-escape` is required but currently not released,
-therfore the tool must be installed by using `go get` (requires installed Go):
-
-      GO111MODULE=off go get github.com/segmentio/terraform-docs
+Download the latest version (at least v0.8.2) 
+from the [release](https://github.com/segmentio/terraform-docs/releases) page or
+use the [installation](https://github.com/segmentio/terraform-docs#installation)
+instructions.
 
 ### Using terraform-docs
 

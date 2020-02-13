@@ -5,6 +5,9 @@ Terraform module which creates EC2 instance(s) on AWS.
 These types of resources are supported:
 
 * [EC2 instance](https://www.terraform.io/docs/providers/aws/r/instance.html)
+* (optional) [EBS volume](https://www.terraform.io/docs/providers/aws/r/ebs_volume.html)
+* (optional) [Route53 record](https://www.terraform.io/docs/providers/aws/r/route53_record.html)
+  (A record)
 
 ## Terraform versions
 
@@ -15,18 +18,16 @@ to backport features for Terraform 0.11. Pin module version to `~> v2.0`.
 
 ```hcl
 module "ec2_cluster" {
-  source                 = "terraform-aws-modules/ec2-instance/aws"
-  version                = "~> 2.0"
-
-  name                   = "my-cluster"
-  instance_count         = 5
+  source                 = "github.com/WildBeavers/terraform-aws-ec2-instance.git?ref=master"
 
   ami                    = "ami-ebd02392"
+  instance_count         = 5
   instance_type          = "t2.micro"
   key_name               = "user1"
   monitoring             = true
-  vpc_security_group_ids = ["sg-12345678"]
+  name                   = "my-cluster"
   subnet_id              = "subnet-eddcdzz4"
+  vpc_security_group_ids = ["sg-12345678"]
 
   tags = {
     Terraform   = "true"
@@ -39,49 +40,6 @@ module "ec2_cluster" {
 
 * [Basic EC2 instance](https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/tree/master/examples/basic)
 * [EC2 instance with EBS volume attachment](https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/tree/master/examples/volume-attachment)
-
-## Make an encrypted AMI for use
-
-This module does not support encrypted AMI's out of the box however it is easy enough for you to generate one for use
-
-This example creates an encrypted image from the latest ubuntu 16.04 base image.
-
-
-```hcl
-resource "aws_ami_copy" "ubuntu-xenial-encrypted-ami" {
-  name              = "ubuntu-xenial-encrypted-ami"
-  description       = "An encrypted root ami based off ${data.aws_ami.ubuntu-xenial.id}"
-  source_ami_id     = "${data.aws_ami.ubuntu-xenial.id}"
-  source_ami_region = "eu-west-2"
-  encrypted         = "true"
-
-  tags {
-    Name = "ubuntu-xenial-encrypted-ami"
-  }
-}
-
-data "aws_ami" "encrypted-ami" {
-  most_recent = true
-
-  filter {
-    name   = "name"
-    values = ["ubuntu-xenial-encrypted"]
-  }
-
-  owners = ["self"]
-}
-
-data "aws_ami" "ubuntu-xenial" {
-  most_recent = true
-
-  filter {
-    name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-xenial-16.04-amd64-server-*"]
-  }
-
-  owners      = ["099720109477"]
-}
-```
 
 ## Modul Documentation
 

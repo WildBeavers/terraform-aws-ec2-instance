@@ -2,81 +2,109 @@ provider "aws" {
   region = "eu-west-1"
 }
 
-##################################################################
-# Data sources to get VPC, subnet, security group and AMI details
-##################################################################
-data "aws_vpc" "default" {
-  default = true
-}
-
-data "aws_subnet_ids" "all" {
-  vpc_id = data.aws_vpc.default.id
-}
-
-data "aws_ami" "amazon_linux" {
+data "aws_ami" "amazon_linux2" {
   most_recent = true
-
-  owners = ["amazon"]
+  owners      = ["amazon"]
 
   filter {
-    name = "name"
-
-    values = [
-      "amzn-ami-hvm-*-x86_64-gp2",
-    ]
+    name   = "architecture"
+    values = ["x86_64"]
   }
 
   filter {
-    name = "owner-alias"
-
-    values = [
-      "amazon",
-    ]
+    name   = "ena-support"
+    values = ["true"]
   }
+
+  filter {
+    name   = "name"
+    values = ["amzn2-ami-hvm*"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+}
+
+data "aws_availability_zones" "this" {}
+
+locals {
+  vpc_cidr = "10.0.0.0/16"
+}
+
+module "vpc" {
+  source  = "terraform-aws-modules/vpc/aws"
+  version = "2.18.0"
+
+  azs                  = data.aws_availability_zones.this.names.*
+  cidr                 = local.vpc_cidr
+  enable_dhcp_options  = true
+  enable_dns_hostnames = true
+  enable_nat_gateway   = true
+  name                 = "ec2-test-vpc"
+  single_nat_gateway   = true
+
+  private_subnets = [
+    cidrsubnet(local.vpc_cidr, 8, 128),
+    cidrsubnet(local.vpc_cidr, 8, 129),
+    cidrsubnet(local.vpc_cidr, 8, 130),
+  ]
+  public_subnets = [
+    cidrsubnet(local.vpc_cidr, 8, 0),
+    cidrsubnet(local.vpc_cidr, 8, 1),
+    cidrsubnet(local.vpc_cidr, 8, 2),
+  ]
 }
 
 module "security_group" {
   source  = "terraform-aws-modules/security-group/aws"
   version = "~> 3.0"
 
-  name        = "example"
-  description = "Security group for example usage with EC2 instance"
-  vpc_id      = data.aws_vpc.default.id
-
+  description         = "Security group for example usage with EC2 instance"
+  egress_rules        = ["all-all"]
   ingress_cidr_blocks = ["0.0.0.0/0"]
   ingress_rules       = ["http-80-tcp", "all-icmp"]
-  egress_rules        = ["all-all"]
-}
-
-resource "aws_eip" "this" {
-  vpc      = true
-  instance = module.ec2.id[0]
-}
-
-resource "aws_placement_group" "web" {
-  name     = "hunky-dory-pg"
-  strategy = "cluster"
+  name                = "example"
+  vpc_id              = module.vpc.vpc_id
 }
 
 module "ec2" {
   source = "../../"
 
-  instance_count = 2
-
-  name          = "example-normal"
-  ami           = data.aws_ami.amazon_linux.id
-  instance_type = "c5.large"
-  subnet_id     = tolist(data.aws_subnet_ids.all.ids)[0]
-  //  private_ips                 = ["172.31.32.5", "172.31.46.20"]
-  vpc_security_group_ids      = [module.security_group.this_security_group_id]
+  ami                         = data.aws_ami.amazon_linux2.id
   associate_public_ip_address = true
-  placement_group             = aws_placement_group.web.id
+  instance_count              = 2
+  instance_type               = "t3.nano"
+  name                        = "example-normal"
+  subnet_ids                  = module.vpc.private_subnets
+  vpc_security_group_ids      = [module.security_group.this_security_group_id]
 
   root_block_device = [
     {
       volume_type = "gp2"
-      volume_size = 10
+      volume_size = 8
     },
+  ]
+
+  attached_block_device = [
+    {
+      device_name = "/dev/sdf"
+      volume_name = "docker"
+      volume_size = "8"
+      volume_type = "standard"
+    },
+    {
+      device_name = "/dev/sdg"
+      volume_name = "data"
+      volume_size = "16"
+      volume_type = "standard"
+    }
   ]
 
   tags = {
@@ -85,44 +113,17 @@ module "ec2" {
   }
 }
 
+/*
 module "ec2_with_t2_unlimited" {
   source = "../../"
 
-  instance_count = 1
-
-  name          = "example-t2-unlimited"
-  ami           = data.aws_ami.amazon_linux.id
-  instance_type = "t2.micro"
-  cpu_credits   = "unlimited"
-  subnet_id     = tolist(data.aws_subnet_ids.all.ids)[0]
-  //  private_ip = "172.31.32.10"
-  vpc_security_group_ids      = [module.security_group.this_security_group_id]
+  ami                         = data.aws_ami.amazon_linux2.id
   associate_public_ip_address = true
-}
-
-module "ec2_with_t3_unlimited" {
-  source = "../../"
-
-  instance_count = 1
-
-  name                        = "example-t3-unlimited"
-  ami                         = data.aws_ami.amazon_linux.id
-  instance_type               = "t3.large"
   cpu_credits                 = "unlimited"
-  subnet_id                   = tolist(data.aws_subnet_ids.all.ids)[0]
+  instance_count              = 1
+  instance_type               = "t3.nano"
+  name                        = "example-t3-unlimited"
+  subnet_ids                  = module.vpc.private_subnets
   vpc_security_group_ids      = [module.security_group.this_security_group_id]
-  associate_public_ip_address = true
 }
-
-# This instance won't be created
-module "ec2_zero" {
-  source = "../../"
-
-  instance_count = 0
-
-  name                   = "example-zero"
-  ami                    = data.aws_ami.amazon_linux.id
-  instance_type          = "c5.large"
-  subnet_id              = tolist(data.aws_subnet_ids.all.ids)[0]
-  vpc_security_group_ids = [module.security_group.this_security_group_id]
-}
+*/
