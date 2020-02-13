@@ -1,13 +1,15 @@
 <a name="unreleased"></a>
 ## [Unreleased]
 
+<a name="v3.0.0"></a>
+## [v3.0.0] - 2020-02-13
+
 - Fix error when VPC and EC2 instances are created together ([#13](https://github.com/WildBeavers/terraform-aws-ec2-instance/issues/13)).
   Parameter `subnet_id` is deprecated and can not be used together with `subnet_ids`.
-- when variables has existed for a single value and a list of values
+- when variables have been existed for a single value and a list of values
   then the single value variable has been removed (`private_ip`, `subnet_id`)  
   => variable `subnet_ids` is now required
 - deprecated outputs have been removed
-- instances are returned as a list of instances
 - Route53 A records are added to the outputs
 - use a map for volumes and volumes attachments instead of a list  
   migrate existing installations with `tf state mv`:
@@ -283,7 +285,8 @@
 - Initial commit
 
 
-[Unreleased]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v2.7.0...HEAD
+[Unreleased]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v3.0.0...HEAD
+[v3.0.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v2.7.0...v3.0.0
 [v2.7.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v2.6.0...v2.7.0
 [v2.6.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v2.5.0...v2.6.0
 [v2.5.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v2.4.0...v2.5.0
