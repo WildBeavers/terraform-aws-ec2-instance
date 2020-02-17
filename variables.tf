@@ -16,8 +16,7 @@ variable "associate_public_ip_address" {
 variable "attached_block_device" {
   description = <<EOF
     List of additional EBS block devices to attach after an instance
-    has been created. Either use this variable or `ebs_block_device`,
-    but not both.
+    has been created. Use this variable instead of `ebs_block_device`.
 
     Each element of the list supports the following volume configuration items
     (provided as a map):
@@ -32,7 +31,7 @@ variable "attached_block_device" {
     For a description of the configuration items see
     [aws_ebs_volume](https://www.terraform.io/docs/providers/aws/r/ebs_volume.html#argument-reference)
 
-    Additionally the following config item exists:
+    Additionally the following config items are required:
 
     * (required) `device_name` - the device name to expose to the instance
     * (required) `volume_name` - name of volume (must be unique across all block devive)
@@ -59,8 +58,10 @@ variable "disable_api_termination" {
 
 variable "ebs_block_device" {
   description = <<EOF
+    (DEPRECATED)
     List of EBS block devices to attach to the instance.
-    Either use this variable or `attached_block_device` but not both.
+    This variable is provided due to backward compatibility.
+    Use insted variable `attached_block_device`.
 
     Each element of the list supports the following volume configuration items
     (provided as a map):
@@ -69,6 +70,7 @@ variable "ebs_block_device" {
     * `device_name`<br>
     * `encrypted`<br>
     * `iops`<br>
+    * `kms_key_id`<br>
     * `snapshot_id`<br>
     * `volume_size`<br>
     * `volume_type`<br>
@@ -140,7 +142,7 @@ variable "iam_instance_profile" {
     Specified as the name of the Instance Profile.
   EOF
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "instance_count" {
@@ -157,11 +159,16 @@ variable "instance_initiated_shutdown_behavior" {
     (for details see [Changing the Instance Initiated Shutdown Behavior](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/terminating-instances.html#Using_ChangingInstanceInitiatedShutdownBehavior).
   EOF
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "instance_private_dns_record" {
-  type        = map(string)
+  type = object({
+    domain         = string
+    hosted_zone_id = string
+    ttl            = string
+  })
+
   description = <<EOF
     Mapping to configure private dns records.
 
@@ -174,7 +181,7 @@ variable "instance_private_dns_record" {
     For a description of the configuration items see
     [Resource: aws_route53_record](https://www.terraform.io/docs/providers/aws/r/route53_record.html#argument-reference)
   EOF
-  default     = {}
+  default     = null
 }
 
 variable "instance_type" {
@@ -199,7 +206,7 @@ variable "ipv6_addresses" {
     to associate with the primary network interface.
   EOF
   type        = list(string)
-  default     = []
+  default     = null
 }
 
 variable "key_name" {
@@ -226,20 +233,12 @@ variable "name" {
   type        = string
 }
 
-variable "network_interface" {
-  description = <<EOF
-    Customize network interfaces to be attached at instance boot time.
-  EOF
-  type        = list(map(string))
-  default     = []
-}
-
 variable "placement_group" {
   description = <<EOF
     The Placement Group to start the instance in
   EOF
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "private_ips" {
@@ -261,6 +260,8 @@ variable "root_block_device" {
     (provided as a map):
 
     * `delete_on_termination`<br>
+    * `encrypted`<br>
+    * `kms_key_id`<br>
     * `iops`<br>
     * `volume_size`<br>
     * `volume_type`<br>
@@ -333,20 +334,6 @@ variable "user_data" {
   default     = ""
 }
 
-variable "volume_tag_name_suffix" {
-  description = <<EOF
-    A `Name` tag with the hostname is automatically added to the `volume_tags`.
-    This variable allows to configure a suffix which appended.
-
-    Remark: The same suffix is used for th following device types:
-    `root_block_device`, `ebs_block_device` and `ephemeral_block_device`.
-    It is not possible to specify a different suffix for each volume (only
-    `attached_block_device` supports this).
-  EOF
-  type        = string
-  default     = ""
-}
-
 variable "volume_tags" {
   description = <<EOF
     A mapping of tags to assign to the devices created by the instance at launch time.
@@ -360,4 +347,5 @@ variable "vpc_security_group_ids" {
     A list of security group IDs to associate with the EC2 instance(s)
   EOF
   type        = list(string)
+  default     = null
 }
