@@ -78,7 +78,6 @@ module "ec2" {
   source = "../../"
 
   ami                         = data.aws_ami.amazon_linux2.id
-  associate_public_ip_address = true
   instance_count              = 2
   instance_type               = "t3.nano"
   name                        = "example-normal"
@@ -87,6 +86,7 @@ module "ec2" {
 
   root_block_device = [
     {
+      encrypted   = true
       volume_type = "gp2"
       volume_size = 8
     },
@@ -95,12 +95,14 @@ module "ec2" {
   attached_block_device = [
     {
       device_name = "/dev/sdf"
+      encrypted   = true
       volume_name = "docker"
       volume_size = "8"
       volume_type = "standard"
     },
     {
       device_name = "/dev/sdg"
+      encrypted   = true
       volume_name = "data"
       volume_size = "16"
       volume_type = "standard"

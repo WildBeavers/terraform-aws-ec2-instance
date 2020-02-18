@@ -1,8 +1,12 @@
 # AWS EC2 Instance Terraform module
 
-Terraform module which creates EC2 instance(s) on AWS.
+Terraform module which creates EC2 instance(s) on AWS. This module is intended
+for the following use cases:
+* creation of one EC2 instance with default values
+* creation of several identical EC2 instances when an autoscaling group
+  is not an option
 
-These types of resources are supported:
+These types of AWS resources are created:
 
 * [EC2 instance](https://www.terraform.io/docs/providers/aws/r/instance.html)
 * (optional) [EBS volume](https://www.terraform.io/docs/providers/aws/r/ebs_volume.html)
@@ -38,8 +42,7 @@ module "ec2_cluster" {
 
 ## Examples
 
-* [Basic EC2 instance](https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/tree/master/examples/basic)
-* [EC2 instance with EBS volume attachment](https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/tree/master/examples/volume-attachment)
+* [Basic EC2 instance](examples/basic)
 
 ## Modul Documentation
 
