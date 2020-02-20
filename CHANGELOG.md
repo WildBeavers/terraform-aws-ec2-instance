@@ -1,5 +1,24 @@
 <a name="unreleased"></a>
-## [Unreleased]
+
+
+<a name="v3.1.0"></a>
+## [v3.1.0] - 2020-02-??
+
+- `root_block_device`: add attributes `encrypted` and `kms_key_id`
+- `ebs_block_device`: add attribute `kms_key_id`
+- delete no longer used variables `volume_tag_name_suffix`
+  and `network_interface`
+- update documentation
+- update example
+- enforce required values for var variable `instance_private_dns_record`
+- mark `ebs_block_device` as deprecated
+- use "null" instead of empty string/list as default value
+  for variables which are only forwarded but not used  
+  => Terraform default is used
+- delete unused variable `network_interface`
+- add default for variable vpc_security_group_ids  
+  => variable is now optional
+- rename output `a_record` to `a_records`
 
 <a name="v3.0.0"></a>
 ## [v3.0.0] - 2020-02-13
@@ -285,7 +304,8 @@
 - Initial commit
 
 
-[Unreleased]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v3.0.0...HEAD
+[Unreleased]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v3.1.0...HEAD
+[v3.1.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v3.0.0...v3.1.0
 [v3.0.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v2.7.0...v3.0.0
 [v2.7.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v2.6.0...v2.7.0
 [v2.6.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v2.5.0...v2.6.0

@@ -1,8 +1,12 @@
 # AWS EC2 Instance Terraform module
 
-Terraform module which creates EC2 instance(s) on AWS.
+Terraform module which creates EC2 instance(s) on AWS. This module is intended
+for the following use cases:
+* creation of one EC2 instance with default values
+* creation of several identical EC2 instances when an autoscaling group
+  is not an option
 
-These types of resources are supported:
+These types of AWS resources are created:
 
 * [EC2 instance](https://www.terraform.io/docs/providers/aws/r/instance.html)
 * (optional) [EBS volume](https://www.terraform.io/docs/providers/aws/r/ebs_volume.html)
@@ -11,8 +15,8 @@ These types of resources are supported:
 
 ## Terraform versions
 
-Only Terraform version 0.12 is supported, there are no plans
-to backport features for Terraform 0.11. Pin module version to `~> v2.0`.
+Only Terraform version 0.12.6 or later is supported, there are no plans
+to backport features for Terraform 0.11. Pin module version to `~> v3.0`.
 
 ## Usage
 
@@ -38,8 +42,7 @@ module "ec2_cluster" {
 
 ## Examples
 
-* [Basic EC2 instance](https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/tree/master/examples/basic)
-* [EC2 instance with EBS volume attachment](https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/tree/master/examples/volume-attachment)
+* [Basic EC2 instance](examples/basic)
 
 ## Modul Documentation
 
@@ -48,21 +51,13 @@ parameters, documentation is available.
 
 ## Notes
 
-* `network_interface` can't be specified together with
-  `associate_public_ip_address`, which makes `network_interface`
-  not configurable using this module at the moment
-* Changes in `ebs_block_device` argument will be ignored. 
-  Use [aws_volume_attachment](https://www.terraform.io/docs/providers/aws/r/volume_attachment.html)
-  resource to attach and detach volumes from AWS EC2 instances.
-  See [this example](https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/tree/master/examples/volume-attachment)
-  or use the parameter `attached_block_device`.
 * When using variable `attached_block_device` then you **MUST NOT** use
   `ebs_block_device` of the EC2 module. Terraform currently supports only
-  either inline (i.e. as sub block of `aws_instance`) or separate
+  either inline (i.e. as a sub block of `aws_instance`) or separate
   creation and attachment of EBS volumes
   (see [note](https://www.terraform.io/docs/providers/aws/r/instance.html#block-devices))
-* One of `subnet_id` or `subnet_ids` is required. If both are provided,
-  the value of `subnet_id` is prepended to the value of `subnet_ids`.
+  The `attached_block_device` is the preferred way for creating volumes
+  using this module.
 
 ## Authors
 

@@ -7,7 +7,8 @@ variable "ami" {
 
 variable "associate_public_ip_address" {
   description = <<EOF
-    If true, the EC2 instance will have associated public IP address.
+    If true, the EC2 instance will get a public IP address
+    (changing this attribute triggers re-creation).
   EOF
   type        = bool
   default     = false
@@ -16,23 +17,22 @@ variable "associate_public_ip_address" {
 variable "attached_block_device" {
   description = <<EOF
     List of additional EBS block devices to attach after an instance
-    has been created. Either use this variable or `ebs_block_device`,
-    but not both.
+    has been created. Use this variable instead of `ebs_block_device`.
 
-    Each element of the list supports the following volume configuration items
-    (provided as a map):
+    Each element of the list supports the following volume configuration
+    attributes (provided as a map):
 
-    * (optional) `encrypted`<br>
+    * `encrypted` - boolean (changing this attribute triggers re-creation)<br>
     * (optional) `iops`<br>
     * (optional) `kms_key_id`<br>
     * (optional) `snapshot_id`<br>
     * (optional) `volume_size`<br>
     * (optional) `volume_type`<br>
 
-    For a description of the configuration items see
-    [aws_ebs_volume](https://www.terraform.io/docs/providers/aws/r/ebs_volume.html#argument-reference)
+    For a description of the configuration attributes and their default values
+    see [aws_ebs_volume](https://www.terraform.io/docs/providers/aws/r/ebs_volume.html#argument-reference)
 
-    Additionally the following config item exists:
+    Additionally the following config attributes are required:
 
     * (required) `device_name` - the device name to expose to the instance
     * (required) `volume_name` - name of volume (must be unique across all block devive)
@@ -59,22 +59,25 @@ variable "disable_api_termination" {
 
 variable "ebs_block_device" {
   description = <<EOF
+    (DEPRECATED)
     List of EBS block devices to attach to the instance.
-    Either use this variable or `attached_block_device` but not both.
+    This variable is provided due to backward compatibility.
+    Use insted variable `attached_block_device`.
 
-    Each element of the list supports the following volume configuration items
-    (provided as a map):
+    Each element of the list supports the following volume configuration
+    attributes (provided as a map):
 
-    * `delete_on_termination`<br>
+    * `delete_on_termination` - boolean<br>
     * `device_name`<br>
-    * `encrypted`<br>
+    * `encrypted` - boolean (changing this attribute triggers re-creation)<br>
     * `iops`<br>
+    * `kms_key_id`<br>
     * `snapshot_id`<br>
     * `volume_size`<br>
     * `volume_type`<br>
 
-    For a description of the configuration items see
-    [Block devices](https://www.terraform.io/docs/providers/aws/r/instance.html#block-devices)
+    For a description of the configuration attributes and their default values
+    see [Block devices](https://www.terraform.io/docs/providers/aws/r/instance.html#block-devices)
     (section `ebs_block_device`)
   EOF
   type        = list(map(string))
@@ -93,15 +96,15 @@ variable "ephemeral_block_device" {
   description = <<EOF
     List of Ephemeral (also known as Instance Store) volumes on the instance.
 
-    Each element of the list supports the following volume configuration items
-    (provided as a map):
+    Each element of the list supports the following volume configuration
+    attributes (provided as a map):
 
     * `device_name`<br>
     * `no_device`<br>
     * `virtual_name`<br>
 
-    For a description of the configuration items see
-    [Block devices](https://www.terraform.io/docs/providers/aws/r/instance.html#block-devices)
+    For a description of the configuration attributes  and their default values
+    see [Block devices](https://www.terraform.io/docs/providers/aws/r/instance.html#block-devices)
     (section `ephemeral_block_device`)
   EOF
   type        = list(map(string))
@@ -140,7 +143,7 @@ variable "iam_instance_profile" {
     Specified as the name of the Instance Profile.
   EOF
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "instance_count" {
@@ -157,24 +160,29 @@ variable "instance_initiated_shutdown_behavior" {
     (for details see [Changing the Instance Initiated Shutdown Behavior](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/terminating-instances.html#Using_ChangingInstanceInitiatedShutdownBehavior).
   EOF
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "instance_private_dns_record" {
-  type        = map(string)
+  type = object({
+    domain         = string
+    hosted_zone_id = string
+    ttl            = string
+  })
+
   description = <<EOF
     Mapping to configure private dns records.
 
-    The mapping must contain the following configuration items:
+    The mapping must contain the following configuration attributes:
 
     * `domain`<br>
     * `hosted_zone_id`<br>
     * `ttl`<br>
 
-    For a description of the configuration items see
+    For a description of the configuration attributes see
     [Resource: aws_route53_record](https://www.terraform.io/docs/providers/aws/r/route53_record.html#argument-reference)
   EOF
-  default     = {}
+  default     = null
 }
 
 variable "instance_type" {
@@ -199,7 +207,7 @@ variable "ipv6_addresses" {
     to associate with the primary network interface.
   EOF
   type        = list(string)
-  default     = []
+  default     = null
 }
 
 variable "key_name" {
@@ -226,20 +234,12 @@ variable "name" {
   type        = string
 }
 
-variable "network_interface" {
-  description = <<EOF
-    Customize network interfaces to be attached at instance boot time.
-  EOF
-  type        = list(map(string))
-  default     = []
-}
-
 variable "placement_group" {
   description = <<EOF
     The Placement Group to start the instance in
   EOF
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "private_ips" {
@@ -257,16 +257,18 @@ variable "root_block_device" {
     The list must contain zero or one entries
     (more than one root device is not allowed).
 
-    Each element of the list supports the following volume configuration items
-    (provided as a map):
+    Each element of the list supports the following volume configuration
+    attributes (provided as a map):
 
-    * `delete_on_termination`<br>
+    * `delete_on_termination` - boolean<br>
+    * `encrypted` - boolean (changing this attribute triggers re-creation)<br>
+    * `kms_key_id`<br>
     * `iops`<br>
     * `volume_size`<br>
     * `volume_type`<br>
 
-    For a description of the configuration items see
-    [Block devices](https://www.terraform.io/docs/providers/aws/r/instance.html#block-devices)
+    For a description of the configuration attributes and their default values
+    see [Block devices](https://www.terraform.io/docs/providers/aws/r/instance.html#block-devices)
     (section `root_block_device`)
   EOF
   type        = list(map(string))
@@ -333,20 +335,6 @@ variable "user_data" {
   default     = ""
 }
 
-variable "volume_tag_name_suffix" {
-  description = <<EOF
-    A `Name` tag with the hostname is automatically added to the `volume_tags`.
-    This variable allows to configure a suffix which appended.
-
-    Remark: The same suffix is used for th following device types:
-    `root_block_device`, `ebs_block_device` and `ephemeral_block_device`.
-    It is not possible to specify a different suffix for each volume (only
-    `attached_block_device` supports this).
-  EOF
-  type        = string
-  default     = ""
-}
-
 variable "volume_tags" {
   description = <<EOF
     A mapping of tags to assign to the devices created by the instance at launch time.
@@ -360,4 +348,5 @@ variable "vpc_security_group_ids" {
     A list of security group IDs to associate with the EC2 instance(s)
   EOF
   type        = list(string)
+  default     = null
 }

@@ -1,6 +1,7 @@
-######
-# Note: network_interface can't be specified together with associate_public_ip_address
-######
+/*  #########################################################################
+    Create EC2 instance(s)
+    ######################################################################### */
+
 resource "aws_instance" "this" {
   count = var.instance_count
 
@@ -24,11 +25,17 @@ resource "aws_instance" "this" {
   user_data                            = data.template_file.user_data[count.index].rendered
   vpc_security_group_ids               = var.vpc_security_group_ids
 
+  credit_specification {
+    cpu_credits = local.is_t_instance_type ? var.cpu_credits : null
+  }
+
   dynamic "root_block_device" {
     for_each = var.root_block_device
     content {
       delete_on_termination = lookup(root_block_device.value, "delete_on_termination", null)
+      encrypted             = lookup(root_block_device.value, "encrypted", null)
       iops                  = lookup(root_block_device.value, "iops", null)
+      kms_key_id            = lookup(root_block_device.value, "kms_key_id", null)
       volume_size           = lookup(root_block_device.value, "volume_size", null)
       volume_type           = lookup(root_block_device.value, "volume_type", null)
     }
@@ -41,6 +48,7 @@ resource "aws_instance" "this" {
       device_name           = lookup(ebs_block_device.value, "device_name", null)
       encrypted             = lookup(ebs_block_device.value, "encrypted", null)
       iops                  = lookup(ebs_block_device.value, "iops", null)
+      kms_key_id            = lookup(ebs_block_device.value, "kms_key_id", null)
       snapshot_id           = lookup(ebs_block_device.value, "snapshot_id", null)
       volume_size           = lookup(ebs_block_device.value, "volume_size", null)
       volume_type           = lookup(ebs_block_device.value, "volume_type", null)
@@ -65,14 +73,10 @@ resource "aws_instance" "this" {
 
   volume_tags = merge(
     {
-      Name = "${local.hostnames[count.index]}${var.volume_tag_name_suffix}"
+      Name = local.hostnames[count.index]
     },
     var.volume_tags,
   )
-
-  credit_specification {
-    cpu_credits = local.is_t_instance_type ? var.cpu_credits : null
-  }
 
   lifecycle {
     # Due to issue [#3116 Cannot use interpolations in lifecycle attributes](https://github.com/hashicorp/terraform/issues/3116)

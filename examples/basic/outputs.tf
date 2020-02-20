@@ -8,10 +8,10 @@ output "instances" {
   value = module.ec2.instances
 }
 
-output "a_record" {
+output "a_records" {
   description = <<EOF
     List of Route53 A records.
   EOF
 
-  value = module.ec2.a_record
+  value = module.ec2.a_records
 }
