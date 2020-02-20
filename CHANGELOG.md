@@ -1,8 +1,7 @@
 <a name="unreleased"></a>
 
-
 <a name="v3.1.0"></a>
-## [v3.1.0] - 2020-02-??
+## [v3.1.0] - 2020-02-20
 
 - `root_block_device`: add attributes `encrypted` and `kms_key_id`
 - `ebs_block_device`: add attribute `kms_key_id`
@@ -10,7 +9,7 @@
   and `network_interface`
 - update documentation
 - update example
-- enforce required values for var variable `instance_private_dns_record`
+- enforce required values for variable `instance_private_dns_record`
 - mark `ebs_block_device` as deprecated
 - use "null" instead of empty string/list as default value
   for variables which are only forwarded but not used  
