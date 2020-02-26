@@ -69,6 +69,7 @@ resource "aws_instance" "this" {
       Name = local.hostnames[count.index]
     },
     var.tags,
+    var.instance_tags
   )
 
   volume_tags = merge(
