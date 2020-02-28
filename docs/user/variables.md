@@ -175,7 +175,7 @@ Default: `false`
 
 ## ephemeral_block_device
 
-Description: List of Ephemeral (also known as Instance Store) volumes on the instance.
+Description: List of ephemeral (also known as Instance Store) volumes on the instance.
 
 Each element of the list supports the following volume configuration
 attributes (provided as a map):
@@ -354,4 +354,3 @@ Description: A mapping of tags that are assigned to all volume.
 Type: `map(string)`
 
 Default: `{}`
-

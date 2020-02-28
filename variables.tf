@@ -98,7 +98,7 @@ If true, the launched EC2 instance(s) will be EBS-optimized.
 
 variable "ephemeral_block_device" {
   description = <<EOF
-List of Ephemeral (also known as Instance Store) volumes on the instance.
+List of ephemeral (also known as Instance Store) volumes on the instance.
 
 Each element of the list supports the following volume configuration
 attributes (provided as a map):
@@ -131,7 +131,7 @@ The `name` and instance count are used as parameters.
 The [Specification Syntax](https://www.terraform.io/docs/configuration/functions/format.html)
 contains a description of formatting sequences.
 It is important that a valid padding character is used
-in order to prevent space(s) in the hostname
+in order to prevent one or multiple spaces in the hostname
 (e.g. use `"%s-%02d"` but __not__ `"%s-%2d"`)
 
 This value is only used when `use_num_suffix==true` or
@@ -266,7 +266,7 @@ Should match the number of instances.
 variable "root_block_device" {
   description = <<EOF
 Customize details about the root block device of the instance(s).
-The list must contain zero or one entries
+The list must be empty or contain a single entry
 (more than one root device is not allowed).
 
 Each element of the list supports the following volume configuration
@@ -327,7 +327,7 @@ Available values:
 
 variable "use_num_suffix" {
   description = <<EOF
-Always append numerical suffix to instance name,
+Always append a numerical suffix to the instance name,
 even if instance_count is 1.
   EOF
   type        = bool
@@ -350,7 +350,7 @@ and enclosed in curly brackets
 
 variable "volume_tags" {
   description = <<EOF
-A mapping of tags that are assigned to all volume.
+A mapping of tags that are assigned to all volumes.
   EOF
   type        = map(string)
   default     = {}
