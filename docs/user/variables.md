@@ -208,7 +208,7 @@ The `name` and instance count are used as parameters.
 The [Specification Syntax](https://www.terraform.io/docs/configuration/functions/format.html)
 contains a description of formatting sequences.
 It is important that a valid padding character is used
-in order to prevent space(s) in the hostname
+in order to prevent one or multiple spaces in the hostname
 (e.g. use `"%s-%02d"` but __not__ `"%s-%2d"`)
 
 This value is only used when `use_num_suffix==true` or
@@ -245,7 +245,7 @@ Default: `0`
 
 ## key_name
 
-Description: The name of the SSh key to use for the instance.
+Description: The name of the SSH key to use for the instance.
 The key must exist at the region where the instance is launched.
 
 Type: `string`
@@ -272,7 +272,7 @@ Default: `[]`
 ## root_block_device
 
 Description: Customize details about the root block device of the instance(s).
-The list must contain zero or one entries
+The list must be empty or contain a single entry
 (more than one root device is not allowed).
 
 Each element of the list supports the following volume configuration
@@ -326,7 +326,7 @@ Default: `"default"`
 
 ## use_num_suffix
 
-Description: Always append numerical suffix to instance name,
+Description: Always append a numerical suffix to the instance name,
 even if instance_count is 1.
 
 Type: `bool`
@@ -349,8 +349,9 @@ Default: `""`
 
 ## volume_tags
 
-Description: A mapping of tags that are assigned to all volume.
+Description: A mapping of tags that are assigned to all volumes.
 
 Type: `map(string)`
 
 Default: `{}`
+
