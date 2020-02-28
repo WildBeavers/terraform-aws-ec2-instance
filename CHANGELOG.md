@@ -1,5 +1,12 @@
 <a name="unreleased"></a>
 
+<a name="v3.2.0"></a>
+## [v3.2.0] - 2020-02-28
+
+- switch from table to document format for variables and outputs
+- add variable `instance_tags` for tags which are only added to EC2 instance
+
+
 <a name="v3.1.0"></a>
 ## [v3.1.0] - 2020-02-20
 
@@ -19,6 +26,7 @@
   => variable is now optional
 - rename output `a_record` to `a_records`
 
+
 <a name="v3.0.0"></a>
 ## [v3.0.0] - 2020-02-13
 
@@ -35,6 +43,7 @@
       # replace ${index}, ${hostname} and ${volumename} accordingly
       tf state mv 'module.ec2.aws_ebs_volume.this[${index}]' 'module.ec2.aws_ebs_volume.this["${hostname}.${volumename}"]'
 
+
 <a name="v2.7.0"></a>
 ## [v2.7.0] - 2019-09-06
 
@@ -46,6 +55,7 @@
 - support suffix for volume tag `Name` ([#5](https://github.com/WildBeavers/terraform-aws-ec2-instance/issues/5))
 - removed parameter `volume_tag_name_suffix` of variable `attached_block_device`
 - add required parameter `volume_name` to variable `attached_block_device`
+
 
 <a name="v2.6.0"></a>
 ## [v2.6.0] - 2019-07-21
@@ -303,7 +313,8 @@
 - Initial commit
 
 
-[Unreleased]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v3.1.0...HEAD
+[Unreleased]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v3.2.0...HEAD
+[v3.2.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v3.1.0...v3.2.0
 [v3.1.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v3.0.0...v3.1.0
 [v3.0.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v2.7.0...v3.0.0
 [v2.7.0]: https://github.com/WildBeavers/terraform-aws-ec2-instance/compare/v2.6.0...v2.7.0
