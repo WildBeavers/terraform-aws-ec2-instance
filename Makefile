@@ -19,11 +19,15 @@ documentation:
 	# generating input parameter documentation
 	mkdir -p ./tmp/variables
 	cp variables.tf ./tmp/variables/
-	terraform-docs markdown table --no-escape --sort-inputs-by-required --with-aggregate-type-defaults --no-providers --indent 1 --no-outputs ./tmp/variables > docs/user/variables.md
+	terraform-docs markdown document --no-escape --sort-by-required --no-providers --indent 1 --no-outputs ./tmp/variables > docs/user/variables.md
+	# terraform-docs preserves all line breaks
+	# => remove double spaces at end of line
+	sed -i "" "s/  $$//" docs/user/variables.md
 	git add docs/user/variables.md
 
 	# generating output parameter documentation
 	mkdir -p ./tmp/outputs
 	cp outputs.tf ./tmp/outputs/
-	terraform-docs markdown table --no-escape --sort-inputs-by-required --with-aggregate-type-defaults --no-providers --indent 1 --no-inputs ./tmp/outputs/ > docs/user/outputs.md
+	terraform-docs markdown document --no-escape --sort-by-required --no-providers --indent 1 --no-inputs ./tmp/outputs/ > docs/user/outputs.md
+	sed -i "" "s/  $$//" docs/user/outputs.md
 	git add docs/user/outputs.md
